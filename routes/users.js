@@ -75,7 +75,7 @@ router.post('/', async(req,res) => {
 router.get('/:id', [verifyToken], async (req, res) => {
 	try {
 		const fields =
-			'_id email name created_at updated_at';
+			'_id email password created_at updated_at';
 
 		const filter = { _id: req.params.id };
 
