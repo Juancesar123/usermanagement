@@ -1,0 +1,203 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0", 
+      "title": "Docs Test untuk meteor.id",
+      "description": "My User Project Application API",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "securityDefinitions": {
+        "Authorization": {
+        "type": "apiKey",
+        "name": "authorization",
+        "in": "header",
+        "description": "Authentication token"
+      }
+    },
+    "tags": [
+      {
+        "name": "Users",
+        "description": "API for users in the system"
+      },
+      {
+        "name": "Login",
+        "description": "API for auth in the system"
+      }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/auth": {
+            "post": {
+                "tags": ["Login"],
+                "description": "Auth In jwt",
+                "parameters": [
+                  {
+                    "name": "user",
+                    "in": "body",
+                    "description": "User that we want to access data",
+                    "schema": {
+                      "$ref": "#/definitions/Auth"
+                    }
+                  }
+                ],
+                "produces": ["application/json"],
+                "responses": {
+                  "200": {
+                    "description": "access token is generated",
+                    "schema": {
+                      "$ref": "#/definitions/User"
+                    }
+                  }
+                }
+            }
+          },
+      "/users": {
+        "get": {
+          "tags": ["Users"],
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "summary": "Get all users in system",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/Users"
+              }
+            }
+          }
+        },
+        "post": {
+            "tags": ["Users"],
+            "description": "Create new user in system",
+            "parameters": [
+              {
+                "name": "user",
+                "in": "body",
+                "description": "User that we want to create",
+                "schema": {
+                  "$ref": "#/definitions/User"
+                }
+              }
+            ],
+            "produces": ["application/json"],
+            "responses": {
+              "200": {
+                "description": "New user is created",
+                "schema": {
+                  "$ref": "#/definitions/User"
+                }
+              }
+            }
+        }
+      },
+      "/users/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of user that we want to find",
+            "type": "integer"
+          }
+        ],
+        "delete": {
+          "summary": "Delete user with given ID",
+          "tags": [
+            "Users"
+          ],
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User is deleted",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update user with give ID",
+          "tags": [
+            "Users"
+          ],
+          "security": [
+            {
+                "Authorization": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "user",
+              "in": "body",
+              "description": "User with new values of properties",
+              "schema": {
+                "$ref": "#/definitions/updateUser"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User is updated",
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "User": {
+        "required": ["name", "_id", "email"],
+        "properties": {
+          "_id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "Auth": {
+        "required": ["email", "_id", "password"],
+        "properties": {
+          "_id": {
+            "type": "integer",
+            "uniqueItems": true
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Login": {
+        "type": "array",
+        "$ref": "#/definitions/Auth"
+      },
+      "Users": {
+        "type": "array",
+        "$ref": "#/definitions/User"
+      }
+    }
+  }

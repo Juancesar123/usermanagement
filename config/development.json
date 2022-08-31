@@ -1,0 +1,9 @@
+{
+    "port": 3000,
+    "base_url": "http://localhost",
+    "database": {
+        "host": "mongodb://localhost/testmeteorid"
+    },
+    "secret" : "KMZWAY87AA",
+    "query_limit": 5
+}
